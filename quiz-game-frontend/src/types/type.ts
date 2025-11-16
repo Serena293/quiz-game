@@ -8,3 +8,13 @@ export type GameSettingsContextType = {
   numberOfQuestions: number;
   setNumberOfQuestions: (value: number) => void;
 };
+
+
+export type Question = {
+  type: string;
+  difficulty: string;
+  category: string;
+  question: string; 
+  correct_answer: string;
+  incorrect_answers: string[];
+}

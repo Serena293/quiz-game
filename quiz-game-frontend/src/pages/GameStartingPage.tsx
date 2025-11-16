@@ -1,14 +1,40 @@
 import { Container } from "react-bootstrap";
+import useGameSettings from "../hooks/useGameSettings";
+import { useNavigate } from "react-router-dom";
 
 const GameStartingPage = () => {
+  const {setCategory, setDifficulty, setNumberOfQuestions} = useGameSettings();
+  const navigate = useNavigate();
+
+   const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    
+    
+    navigate('/QuestionPage');
+  };
+
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCategory(e.target.value);
+  };
+
+  const handleDifficultyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setDifficulty(e.target.value);
+  };
+
+  const handleQuestionsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNumberOfQuestions(Number(e.target.value));
+  };
+
+
+
   return (
     <Container className="vh-100 d-flex flex-column justify-content-center align-items-center overflow-hidden">
       <h1 className="text-center">Game Stating Page</h1>
-      <form  >
+      <form onSubmit={handleSubmit} >
         <div className="mb-3 d-flex flex-column">
           <label htmlFor="categories-select">Select Category:</label>
-          <select name="categories" id="categories-select" className="w-100" >
-            <option value="9">General Knowledge</option>
+          <select name="categories" id="categories-select" className="w-100" onChange={handleCategoryChange}>
+            <option value="9" >General Knowledge</option>
             <option value="10">Entertainment: Books</option>
             <option value="11">Entertainment: Film</option>
             <option value="12">Entertainment: Music</option>
@@ -37,7 +63,7 @@ const GameStartingPage = () => {
 
         <div className="mb-3 d-flex flex-column">
           <label htmlFor="difficulty-select">Select Difficulty:</label>
-          <select name="difficulty" id="difficulty-select"  className="w-100">
+          <select name="difficulty" id="difficulty-select"  className="w-100" onChange={handleDifficultyChange}>
             <option value="easy">Easy</option>
             <option value="medium">Medium</option>
             <option value="hard">Hard</option>
@@ -53,13 +79,14 @@ const GameStartingPage = () => {
             min="1"
             max="50"
             defaultValue={10}
-            className="w-100 "           
+            className="w-100 "       
+            onChange={handleQuestionsChange}    
              
           />
 
           {/* Consider to add type question, true/fale or multiple choise */}
         </div>
-        <button type="button" className="btn btn-primary w-100">
+        <button type="submit" className="btn btn-primary w-100">
           Start Game
         </button>
       </form>

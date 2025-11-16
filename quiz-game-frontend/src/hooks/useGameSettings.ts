@@ -28,14 +28,16 @@ const useGameSettings = (): GameSettingsContextType => {
     const [difficulty, setDifficulty] = useState<string>(getInitialSettings().difficulty);
     const [numberOfQuestions, setNumberOfQuestions] = useState<number>(getInitialSettings().numberOfQuestions);
 
- 
+
+   
     useEffect(() => {
-        const settings = {
+      const settings = {
             category,
             difficulty, 
             numberOfQuestions
         };
         localStorage.setItem("game-settings", JSON.stringify(settings));
+      
     }, [category, difficulty, numberOfQuestions]);
 
     return {
@@ -44,7 +46,10 @@ const useGameSettings = (): GameSettingsContextType => {
         numberOfQuestions,
         setCategory,
         setDifficulty,
-        setNumberOfQuestions
+        setNumberOfQuestions,
+       
+
+       
     };
 };
 
