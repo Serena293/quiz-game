@@ -1,12 +1,32 @@
 import { Container } from "react-bootstrap";
 import useGameSettings from "../hooks/useGameSettings";
 import axios from "axios";
-import { useState, useEffect} from "react";
-import type { Question } from "../types/type";
+import { useState, useEffect } from "react";
+import type { Question, processedQuestion } from "../types/type";
 
 const QuestionPage = () => {
   const { category, difficulty, numberOfQuestions } = useGameSettings();
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const [questions, setQuestions] = useState<processedQuestion[]>([]);
+
+  //Fisher-Yates shuffle algorithm
+  const shuffleArray = (answers: string[]) => {
+    const shuffled = [...answers];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  };
+
+  // Function to decode HTML entities in the question and answers
+  const decodeHtmlEntities = (text: string): string => {
+  const parser = new DOMParser();
+  const decodedString = parser.parseFromString(
+    `<!doctype html><body>${text}`,
+    'text/html'
+  ).body.textContent;
+  return decodedString || text; 
+};
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -25,10 +45,17 @@ const QuestionPage = () => {
         throw error;
       }
     };
+
     const loadQuestions = async () => {
-      try {
+           try {
         const fetchedQuestions = await fetchQuestions();
-        setQuestions(fetchedQuestions);
+        const processedQuestions = fetchedQuestions.map((q: Question) => ({
+          ...q,
+           question: decodeHtmlEntities(q.question),
+          all_answers: shuffleArray([decodeHtmlEntities(q.correct_answer), ...q.incorrect_answers.map(decodeHtmlEntities)]
+          ),
+        }));
+        setQuestions(processedQuestions);
       } catch (error) {
         console.error("Failed to load questions:", error);
       }
@@ -43,20 +70,20 @@ const QuestionPage = () => {
         <h2 className="text-center mb-5">{questions[0]?.question}</h2>
 
         <div className="d-flex justify-content-between mb-3">
-          <div className="mx-3 border border-1 p-2 border-primary">
-            Answer 1
-          </div>
-          <div className="mx-3 border border-1 p-2 border-primary">
-            Answer 2
-          </div>
+          <button className="btn btn-light border-primary py-3 mx-3 w-50">
+            {questions[0]?.all_answers[0]}
+          </button>
+          <button className="btn btn-light border-primary py-3 mx-3 w-50">
+            {questions[0]?.all_answers[1]}
+          </button>
         </div>
         <div className="d-flex justify-content-around">
-          <div className="mx-3 border border-1 p-2 border-primary">
-            Answer 3
-          </div>
-          <div className="mx-3 border border-1 p-2 border-primary">
-            Answer 4
-          </div>
+          <button className="btn btn-light border-primary py-3 mx-3 w-50">
+            {questions[0]?.all_answers[2]}
+          </button>
+          <button className="btn btn-light border-primary py-3 mx-3 w-50">
+            {questions[0]?.all_answers[3]}
+          </button>
         </div>
       </div>
     </Container>

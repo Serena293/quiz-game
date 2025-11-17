@@ -18,3 +18,7 @@ export type Question = {
   correct_answer: string;
   incorrect_answers: string[];
 }
+
+export type processedQuestion = Question & { 
+  all_answers: string[];
+}
