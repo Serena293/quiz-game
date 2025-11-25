@@ -1,33 +1,36 @@
 import { Container } from "react-bootstrap";
+import GameLogicContext from "../context/ScoreContext";
+// import useGameLogic from "../hooks/useGameLogic";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useContext } from "react";
 
-import useGameLogic from "../hooks/useGameLogic";
 
 const QuestionPage = () => {
-  const { questions } = useGameLogic();
-  const { 
-    currentQuestion, 
-    handleAnswer, 
-    gameStatus,
-    score,
-    progress 
-  } = useGameLogic();
+
+  const navigate = useNavigate();
+  const game = useContext(GameLogicContext);
+
+  useEffect(() => {
+    if (!game) return; 
+    if (game.gameStatus === "finished") {
+      navigate("/score", { state: { score: game.score } });
+    }
+  }, [game, navigate]);
 
   
-  if (gameStatus === 'finished') {
-    return <div>Final Score: {score}</div>;
-    
+  if (!game || !game.currentQuestion) {
+    return <div>Loading questions...</div>;
   }
 
-  if (!currentQuestion) {
-    return <div>Caricamento domande...</div>;
-  }
+  const { currentQuestion, handleAnswer, score, progress } = game;
+
   return (
     <Container className="vh-100">
       <div className="d-flex flex-column justify-content-center align-items-center h-100">
              <div className="mb-3">
           Score: {score} - Progress: {Math.round(progress)}%
         </div>
-        <h2 className="text-center mb-5">{questions[0]?.question}</h2>
+        <h2 className="text-center mb-5">{currentQuestion.question}</h2>
 
         <div className="d-flex justify-content-between mb-3">
           <button className="btn btn-light border-primary py-3 mx-3 w-50"

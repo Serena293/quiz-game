@@ -2,6 +2,8 @@ import useGameSettings from "./useGameSettings";
 import type { Question, processedQuestion } from "../types/type";
 import { useState, useEffect } from "react";
 import axios from "axios";
+
+
 const useGameLogic = () => {
   const { category, difficulty, numberOfQuestions } = useGameSettings();
   const [questions, setQuestions] = useState<processedQuestion[]>([]);
@@ -45,6 +47,7 @@ const useGameLogic = () => {
             type: "multiple",
           },
         });
+        console.log("Fetched questions:", response.data.results);
         return response.data.results;
       } catch (error) {
         console.error("Error fetching questions:", error);

@@ -10,18 +10,22 @@ import {
   BrowserRouter as Router,
   Navigate,
 } from "react-router-dom";
+import ScorePage from "./pages/ScorePage";
+import GameLogicProvider from "./provider/GameLogicProvider";
 
 function App() {
   return (
     <>
-      <MyNavbar />
-      <Router>
-        <Routes>
-          <Route path="/" element={<GameStartingPage />} />
-          <Route path="/QuestionPage" element={<QuestionPage />} />
-        </Routes>
-      </Router>
-      <Footer />
+      <GameLogicProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<GameStartingPage />} />
+            <Route path="/QuestionPage" element={<QuestionPage />} />
+            <Route path="/score" element={<ScorePage />} />
+          </Routes>
+        </Router>
+        <Footer />
+      </GameLogicProvider>
     </>
   );
 }

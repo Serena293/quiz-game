@@ -1,6 +1,7 @@
 import { createContext } from "react";
+import type { GameLogicContextType } from "../types/type";
 
 
-const ScoreContext = createContext<number | null>(0);
+const ScoreContext = createContext<GameLogicContextType | null>(null);
 
 export default ScoreContext;

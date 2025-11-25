@@ -22,3 +22,30 @@ export type Question = {
 export type processedQuestion = Question & { 
   all_answers: string[];
 }
+
+export type GameLogicContextType = {
+  questions: processedQuestion[];
+  setQuestions: React.Dispatch<React.SetStateAction<processedQuestion[]>>;
+
+  category: string | number;
+  difficulty: string;
+  numberOfQuestions: number;
+
+  currentQuestion: processedQuestion | undefined;
+  currentQuestionIndex: number;
+
+  score: number;
+
+  userAnswers: {
+    questionIndex: number;
+    selectedAnswer: string;
+    isCorrect: boolean;
+  }[];
+
+  gameStatus: "playing" | "finished";
+
+  handleAnswer: (selectedAnswer: string) => void;
+  resetGame: () => void;
+
+  progress: number;
+};
