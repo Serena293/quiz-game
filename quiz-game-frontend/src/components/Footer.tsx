@@ -1,7 +1,10 @@
 const Footer = () => {
+  const date = new Date();
+  const year = date.getFullYear();
+
   return (
     <div className="position-fixed bottom-0 text-center w-100 bg-body-tertiary">
-        <h3>Footer</h3>
+        <p className="mt-3">Quiz Game &middot; {year}</p>
     </div>)
     }
 
