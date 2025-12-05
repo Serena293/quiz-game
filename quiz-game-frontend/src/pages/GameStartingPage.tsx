@@ -27,10 +27,11 @@ const GameStartingPage = () => {
 
   return (
     <>
-      <h1 className="text-center pt-5">Game Stating Page</h1>
-      <Container className="vh-100 d-flex flex-column justify-content-center align-items-center overflow-hidden ">
-        <form onSubmit={handleSubmit} className="p-5 border rounded-3 w-50 bg-light">
-          <div className="mb-3 d-flex flex-column">
+      
+      <Container className="vh-100 d-flex flex-column justify-content-center align-items-center">
+      <h1 className="text-center mb-4 fw-bold">Game Stating Page</h1> 
+       <form onSubmit={handleSubmit} className="p-4 border rounded-4 bg-white shadow-sm" style={{ width: "100%", maxWidth: "450px" }}>
+          <div className="mb-3">
             <label htmlFor="categories-select" className="mb-2 px-1">Select Category:</label>
             <select
               name="categories"
@@ -66,7 +67,7 @@ const GameStartingPage = () => {
             </select>
           </div>
 
-          <div className="mb-3 d-flex flex-column">
+          <div className="mb-3">
             <label htmlFor="difficulty-select"  className="mb-2 px-1">Select Difficulty:</label>
             <select
               name="difficulty"
@@ -80,7 +81,7 @@ const GameStartingPage = () => {
             </select>
           </div>
 
-          <div className="mb-3 d-flex flex-column">
+          <div className="mb-3">
             <label htmlFor="number-of-questions"  className="mb-2 px-1">Number of Questions:</label>
             <input
               type="number"
@@ -95,7 +96,7 @@ const GameStartingPage = () => {
 
             {/* Consider to add type question, true/fale or multiple choise */}
           </div>
-          <button type="submit" className="btn btn-primary w-100">
+          <button type="submit" className="btn btn-primary w-100 py-2">
             Start Game
           </button>
         </form>
